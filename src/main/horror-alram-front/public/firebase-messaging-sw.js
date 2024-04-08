@@ -13,12 +13,12 @@ self.addEventListener("push", function(e) {
   console.log("push: ", e.data.json());
   if (!e.data.json()) return;
 
-  const resultData = e.data.json().notification;
+  const resultData = e.data.json().data;
   const notificationTitle = resultData.title;
   const notificationOptions = {
     body: resultData.body,
-    icon: resultData.image,
-    tag: resultData.tag
+    icon: '',
+    tag: 'push-notification-tag'
   };
   console.log("notificationTitle: ", notificationTitle);
   console.log("notificationOptions: ", notificationOptions);
