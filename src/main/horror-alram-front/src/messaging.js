@@ -32,7 +32,7 @@ async function requestPermission() {
 
   try {
     const token = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
-    const response = await axios.post('/api/token', { token: token });
+    const response = await axios.post('/api/subscribe', { token: token });
     console.log('Token saved:', response.data);
   }
   catch (error) {
@@ -47,7 +47,7 @@ async function deleteToken() {
   swRegistration.pushManager.getSubscription().then((subscription) => {
     subscription.unsubscribe().then((successful) => {
       console.log('Token deletion successful:', successful);
-      axios.delete('/api/token', { data: { token: token } });
+      axios.delete('/api/unsubscribe', { data: { token: token } });
     }).catch((error) => {
       console.error('Token deletion failed:', error);
     });
