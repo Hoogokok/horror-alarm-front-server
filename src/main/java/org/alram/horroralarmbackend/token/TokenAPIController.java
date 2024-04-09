@@ -1,7 +1,6 @@
-package org.alram.horroralarmbackend;
+package org.alram.horroralarmbackend.token;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alram.horroralarmbackend.token.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,7 @@ public class TokenAPIController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/api/token")
+    @PostMapping("/api/subscribe")
     public ResponseEntity<String> getToken(@RequestBody TokenDTO token) {
         tokenService.saveToken(token);
         return ResponseEntity.ok("알람이 설정되었습니다.");

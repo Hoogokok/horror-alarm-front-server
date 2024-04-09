@@ -1,6 +1,5 @@
 package org.alram.horroralarmbackend.token;
 
-import org.alram.horroralarmbackend.TokenDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

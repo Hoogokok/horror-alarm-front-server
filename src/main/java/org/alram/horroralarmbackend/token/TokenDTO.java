@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend;
+package org.alram.horroralarmbackend.token;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
