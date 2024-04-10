@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend;
+package org.alram.horroralarmbackend.messaging;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;

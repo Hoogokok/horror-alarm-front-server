@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend;
+package org.alram.horroralarmbackend.messaging;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
