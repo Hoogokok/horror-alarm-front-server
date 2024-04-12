@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend.token;
+package org.alram.horroralarmbackend.alarm;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
