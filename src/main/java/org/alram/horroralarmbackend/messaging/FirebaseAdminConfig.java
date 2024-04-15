@@ -6,7 +6,6 @@ import com.google.firebase.FirebaseOptions;
 import java.io.FileInputStream;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 public class FirebaseAdminConfig {
