@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend.releasemovie;
+package org.alram.horroralarmbackend.upcoming;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,16 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Transactional
-class UpComingMovieServiceTest {
+class UpcomingMovieServiceTest {
 
     @Autowired
-    private UpComingMovieService upComingMovieService;
+    private UpcomingMovieService upComingMovieService;
 
     @Test
     void findUpcomingMovieByDate() {
 
         // when
-        List<UpComingMovie> beforeReleaseDate = upComingMovieService.findUpcomingMovieByDate();
+        List<UpcomingMovie> beforeReleaseDate = upComingMovieService.findUpcomingMovieByDate();
 
         // then
         assertThat(beforeReleaseDate).hasSize(2);

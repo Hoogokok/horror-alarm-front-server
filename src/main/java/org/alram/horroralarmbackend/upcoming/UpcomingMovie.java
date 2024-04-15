@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend.releasemovie;
+package org.alram.horroralarmbackend.upcoming;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import lombok.NonNull;
 @Table(name = "upcoming_movie")
 @Entity
 @Getter
-public class UpComingMovie {
+public class UpcomingMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +24,10 @@ public class UpComingMovie {
     private String poster_path;
     private String overview;
 
-    public UpComingMovie() {
+    public UpcomingMovie() {
     }
 
-    public UpComingMovie(String title, String releaseDate, String poster_path, String overview) {
+    public UpcomingMovie(String title, String releaseDate, String poster_path, String overview) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.poster_path = poster_path;
