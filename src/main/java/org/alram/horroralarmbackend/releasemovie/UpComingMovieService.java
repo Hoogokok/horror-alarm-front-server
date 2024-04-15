@@ -1,6 +1,7 @@
 package org.alram.horroralarmbackend.releasemovie;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ public class UpComingMovieService {
         this.upComingMovieRepository = upComingMovieRepository;
     }
 
-    public List<UpComingMovie> findBeforeReleaseDate(String releaseDate) {
-        return upComingMovieRepository.findByReleaseDateBefore(releaseDate);
+    public List<UpComingMovie> findUpcomingMovieByDate() {
+        String today = LocalDate.now().toString();
+        return upComingMovieRepository.findByReleaseDateAfter(today);
     }
 }
