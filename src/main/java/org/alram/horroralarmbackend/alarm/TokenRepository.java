@@ -1,4 +1,4 @@
-package org.alram.horroralarmbackend.token;
+package org.alram.horroralarmbackend.alarm;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
