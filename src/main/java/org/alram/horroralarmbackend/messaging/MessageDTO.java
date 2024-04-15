@@ -1,6 +1,5 @@
 package org.alram.horroralarmbackend.messaging;
 
-import java.util.List;
 import lombok.Data;
 
 @Data
