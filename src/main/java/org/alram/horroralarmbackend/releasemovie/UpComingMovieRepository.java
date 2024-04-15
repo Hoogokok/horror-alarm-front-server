@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReleaseMovieRepository extends JpaRepository<ReleaseMovie, Long> {
+public interface UpComingMovieRepository extends JpaRepository<UpComingMovie, Long> {
 
-    @Query("SELECT m FROM ReleaseMovie m WHERE DATE(m.releaseDate) < :releaseDate")
-    List<ReleaseMovie> findByReleaseDateBefore(@Param("releaseDate") String releaseDate);
+    @Query("SELECT m FROM UpComingMovie m WHERE DATE(m.releaseDate) < :releaseDate")
+    List<UpComingMovie> findByReleaseDateBefore(@Param("releaseDate") String releaseDate);
 }

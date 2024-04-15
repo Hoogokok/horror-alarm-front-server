@@ -7,10 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
-@Table(name = "movie")
+@Table(name = "upcoming_movie")
 @Entity
 @Getter
-public class ReleaseMovie {
+public class UpComingMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +18,10 @@ public class ReleaseMovie {
     private String title;
     private String releaseDate;
 
-    public ReleaseMovie() {
+    public UpComingMovie() {
     }
 
-    public ReleaseMovie(String title, String releaseDate) {
+    public UpComingMovie(String title, String releaseDate) {
         this.title = title;
         this.releaseDate = releaseDate;
     }
