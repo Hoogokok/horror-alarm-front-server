@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UpComingMovieRepository extends JpaRepository<UpComingMovie, Long> {
 
-    @Query("SELECT m FROM UpComingMovie m WHERE DATE(m.releaseDate) < :releaseDate")
-    List<UpComingMovie> findByReleaseDateBefore(@Param("releaseDate") String releaseDate);
+    @Query("SELECT u FROM UpComingMovie u WHERE u.releaseDate > :today")
+    List<UpComingMovie> findByReleaseDateAfter(@Param("today") String today);
 }
