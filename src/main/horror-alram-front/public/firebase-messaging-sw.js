@@ -7,46 +7,38 @@ self.addEventListener("activate", function(e) {
   console.log("fcm sw activate..");
 });
 
-
-
 self.addEventListener("push", function(e) {
-  console.log("push: ", e.data.json());
-  if (!e.data.json()) return;
-
-  const resultData = e.data.json().data;
-  const notificationTitle = resultData.title;
-  const notificationOptions = {
-    body: resultData.body,
-    icon: '',
-    tag: 'push-notification-tag'
-  };
-  console.log("notificationTitle: ", notificationTitle);
-  console.log("notificationOptions: ", notificationOptions);
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  if (!e.data.json()) {
+    console.log('push event data is not json');
+    return;
+  }
+  const data = e.data.json().notification;
+  if (data) {
+    console.log('push event data:', data);
+    const notificationTitle = data.title;
+    const notificationOptions = {
+      body: data.body,
+      icon: ""
+    };
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
+  //background showNotification
+  const result = e.data.json().data;
+  if (result) {
+    console.log('push event data:', result);
+    const notificationTitle = result.title;
+    const notificationOptions = {
+      body: result.body,
+      icon: ""
+    };
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });
 
 
-
-
-self.addEventListener('notificationclick', function(event) {
-  console.log('알림이 클릭되었습니다.', event.notification.tag);
-
+self.addEventListener("notificationclick", function(event) {
+  console.log("notification click");
+  const url = "/";
   event.notification.close();
-
-  // 알림 권한 확인 및 요청
-  if (Notification.permission === 'granted') {
-    console.log('알림 권한이 있습니다.');
-    // showNotification 호출 가능
-  } else if (Notification.permission === 'denied') {
-    console.log('알림 권한이 거부되었습니다.');
-  } else {
-    Notification.requestPermission().then(function(permission) {
-      if (permission === 'granted') {
-        console.log('알림 권한이 승인되었습니다.');
-        // showNotification 호출 가능
-      } else {
-        console.log('알림 권한이 거부되었습니다.');
-      }
-    });
-  }
+  event.waitUntil(clients.openWindow(url));
 });
