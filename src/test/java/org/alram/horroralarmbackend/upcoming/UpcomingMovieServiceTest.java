@@ -19,7 +19,7 @@ class UpcomingMovieServiceTest {
     void findUpcomingMovieByDate() {
 
         // when
-        List<UpcomingMovie> beforeReleaseDate = upComingMovieService.findUpcomingMovieByDate();
+        List<UpcomingMovieDTO> beforeReleaseDate = upComingMovieService.findUpcomingMovieByDate();
 
         // then
         assertThat(beforeReleaseDate).hasSize(2);
