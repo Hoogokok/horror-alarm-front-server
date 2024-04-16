@@ -1,4 +1,5 @@
 import { Subscribe, Unsubscribe, Send, AlarmPermission, DismissingAlarms } from "./messaging";
+import  { UpcomingMovie } from "./upcomingMovie"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         호러 영화 개봉 알람을 테스트하려면 누르세요
       </p>
       <Send />
+      <UpcomingMovie />
     </div>
   );
 }
