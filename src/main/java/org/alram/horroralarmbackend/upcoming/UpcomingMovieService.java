@@ -14,11 +14,11 @@ public class UpcomingMovieService {
         this.upComingMovieRepository = upComingMovieRepository;
     }
 
-    public List<UpcomingMovieDTO> findUpcomingMovieByDate() {
+    public List<UpcomingMovieRequest> findUpcomingMovieByDate() {
         String today = LocalDate.now().toString();
         List<UpcomingMovie> upcomingMovies = upComingMovieRepository.findByReleaseDateAfter(today);
         return upcomingMovies.stream().map(upcomingMovie ->
-            new UpcomingMovieDTO(
+            new UpcomingMovieRequest(
                 upcomingMovie.getId(),
                 upcomingMovie.getTitle(),
                 upcomingMovie.getReleaseDate(),
