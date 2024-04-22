@@ -15,7 +15,7 @@ public class UpcomingMovieController {
     }
 
     @GetMapping("/upcoming")
-    public ResponseEntity<List<UpcomingMovieDTO>> upcoming() {
+    public ResponseEntity<List<UpcomingMovieRequest>> upcoming() {
         return ResponseEntity.ok(upComingMovieService.findUpcomingMovieByDate());
     }
 }
