@@ -5,12 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class Token {
 
     @Id
@@ -18,10 +17,19 @@ public class Token {
     private Long id;
     @Column(nullable = false, unique = true)
     private String token;
+    @Column(nullable = false)
+    private LocalDate time;
+
     public Token() {
     }
 
-    public Token(String token) {
+    public Token(String token, LocalDate time) {
         this.token = token;
+        this.time = time;
+    }
+
+    public void update(String token, LocalDate time) {
+        this.token = token;
+        this.time = time;
     }
 }
