@@ -10,19 +10,25 @@ import {
   onMessage
 } from "firebase/messaging";
 import {FormControlLabel} from "@mui/material";
-import Alert from '@mui/material/Alert';
-
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+
+async function createTokenAndTime() {
+  const newToken = await getToken(messaging);
+  const date = new Date(); // 현재 날짜 및 시간
+  const newTime = date.toISOString().split('T')[0]; // "2023-04-22"
+  return {newToken, newTime};
+}
 
 async function requestPermission() {
   console.log('Requesting permission...');
   try {
     await Notification.requestPermission();
     console.log('Permission granted');
-    const token = await getToken(messaging);
-    await axios.post('/alarm/permission', {token: token});
+    const {token, time} = await createTokenAndTime();
+    console.log("time", time);
+    await axios.post('/alarm/permission', {token: token, time: time});
   } catch (error) {
     console.error('Permission denied', error);
   }
@@ -51,43 +57,52 @@ async function unsubscribed(token) {
   }
 }
 
-async function deletes() {
-  await axios.delete('/alarm/permission', {data: {token: await getToken(messaging)}})
-  await deleteToken(messaging);
-  console.log('Token deleted');
+async function checkPermission() {
+  try {
+    const token = await getToken(messaging);
+    return !!token;
+  } catch (error) {
+    console.error('An error occurred while retrieving token. ', error);
+  }
+  return false;
 }
 
-async function GuideTolBockingAlarmsAlert(){
-  return (
-      <Alert severity="info">알람을 해제하려면 브라우저 설정에서 알람 설정을 해제해주세요</Alert>
-  );
+async function checkTokenTimeStamps() {
+  try {
+    const token = await getToken(messaging);
+    const response = await axios.get('/alarm/checked/times',
+        {params: {token: token}});
+    const data = response.data;
+    if (data.result) {
+      await deleteToken(messaging);
+      const {newToken, newTime} = await createTokenAndTime();
+      console.log('새로운 토큰과 타임스태프:', newToken, newTime);
+      await axios.post('/alarm/update/token',
+          {oldToken: token, newToken: newToken, newTime: newTime});
+    }
+    console.log('토큰 타임스태프 체크 결과:', data);
+  } catch (error) {
+    console.error('An error occurred while retrieving token timestamps. ',
+        error);
+  }
 }
 
 function AlarmPermissionSwitch() {
-  const checkPermission = async () => {
-    try {
-      const token = await getToken(messaging);
-      return !!token;
-    } catch (error) {
-      console.error('An error occurred while retrieving token. ', error);
-    }
-    return false;
-  }
-  const [checked, setChecked] = useState(false);
-  useEffect(() => {
-    checkPermission().then((result) => setChecked(result));
-  }, []);
-  const handleCheck = async () => {
+  const [checked, setChecked] = useState(checkPermission());
+  const handleChange = async () => {
     if (!checked) {
       await requestPermission();
     } else {
-      await alert('알람을 해제하려면 브라우저 설정에서 알람 설정을 해제해주세요')
+      alert('알람 해제를 하려면 브라우저 설정에서 알람을 해제해주세요.');
     }
   }
+  useEffect(() => {
+    checkTokenTimeStamps();
+  }, []);
   return (
       <FormControlLabel control={<Switch
           checked={checked}
-          onChange={handleCheck}
+          onChange={handleChange}
           inputProps={{'aria-label': 'controlled'}}
       />} label={checked ? '알람 허용' : '알람 해제'}
       />
@@ -114,7 +129,10 @@ function Unsubscribe() {
   return (
       <button onClick={handleUnsubscribe}>Unsubscribe</button>
   );
-
 }
 
-export {Subscribe, Unsubscribe, AlarmPermissionSwitch};
+export {
+  Subscribe,
+  Unsubscribe,
+  AlarmPermissionSwitch
+};
