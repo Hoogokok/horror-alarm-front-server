@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class TokenService {
-    private TokenRepository tokenRepository;
+    private  TokenRepository tokenRepository;
 
     public TokenService(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;

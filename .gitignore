@@ -9444,3 +9444,5 @@ out/
 /src/main/horror-alram-front/node_modules/undici/LICENSE
 /src/main/horror-alram-front/node_modules/undici/package.json
 /src/main/horror-alram-front/node_modules/undici/README.md
+
+*storybook.log
