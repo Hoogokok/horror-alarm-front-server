@@ -8,13 +8,13 @@ import com.google.firebase.messaging.TopicManagementResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alram.horroralarmbackend.alarm.TokenDTO;
+import org.alram.horroralarmbackend.alarm.TopicSubscribeRequest;
+import org.alram.horroralarmbackend.alarm.TopicSubscribeResponse;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class FirebaseMessagingService {
-
 
     public static void send(MessageDTO messageDTO) {
         try {
@@ -30,17 +30,19 @@ public class FirebaseMessagingService {
         }
     }
 
-    public static void subscribeTopic(TokenDTO token) {
+    public static TopicSubscribeResponse subscribeTopic(TopicSubscribeRequest token) {
         try {
             log.info("topic: " + token.getTopic());
-            FirebaseMessaging.getInstance()
+           FirebaseMessaging.getInstance()
                 .subscribeToTopic(List.of(token.getToken()), token.getTopic());
+            return new TopicSubscribeResponse(true, "구독이 완료되었습니다.");
         } catch (FirebaseMessagingException e) {
             log.error("Firebase Cloud Messaging 구독에 실패했습니다.", e);
         }
+        return new TopicSubscribeResponse(false, "구독에 실패했습니다.");
     }
 
-    public static void unsubscribeFromTopic(TokenDTO token) {
+    public static TopicSubscribeResponse unsubscribeFromTopic(TopicSubscribeRequest token) {
         log.info("Firebase Cloud Messaging 구독 해제를 시작합니다.");
         List<String> tokens = new ArrayList<>();
         tokens.add(token.getToken());
@@ -50,8 +52,10 @@ public class FirebaseMessagingService {
             TopicManagementResponse topicManagementResponse = topicManagementResponseApiFuture.get();
             log.info("Firebase Cloud Messaging 구독 해제가 완료되었습니다.");
             log.info("topicManagementResponse: " + topicManagementResponse);
+            return new TopicSubscribeResponse(true, "구독이 해제되었습니다.");
         } catch (Exception e) {
             log.error("Firebase Cloud Messaging 구독 해제에 실패했습니다.", e);
         }
+        return new TopicSubscribeResponse(false, "구독 해제에 실패했습니다.");
     }
 }

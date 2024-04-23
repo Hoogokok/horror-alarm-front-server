@@ -2,7 +2,7 @@ package org.alram.horroralarmbackend.messaging;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alram.horroralarmbackend.upcoming.UpcomingMovieDTO;
+import org.alram.horroralarmbackend.upcoming.UpcomingMovieRequest;
 import org.alram.horroralarmbackend.upcoming.UpcomingMovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class MessagingController {
     @GetMapping("/alarm/horror/send-release-message")
     public ResponseEntity<String> sendHorrorReleaseMessage() {
         log.info("공포영화 개봉 알림 메시지 전송을 시작합니다.");
-        List<UpcomingMovieDTO> upcomingMovies = upComingMovieService.findUpcomingMovieByDate();
+        List<UpcomingMovieRequest> upcomingMovies = upComingMovieService.findUpcomingMovieByDate();
         MessageDTO messageDTO = horrorReleaseMessageBuilder.buildMessage("horror-release", upcomingMovies);
         FirebaseMessagingService.send(messageDTO);
         return ResponseEntity.ok("메시지 전송이 완료되었습니다.");

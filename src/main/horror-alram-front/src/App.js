@@ -1,25 +1,29 @@
-import { Subscribe, Unsubscribe, Send, AlarmPermission, DismissingAlarms } from "./messaging";
-import  { UpcomingMovie } from "./upcomingMovie"
+import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import React from 'react';
+import {AlarmPermissionSwitch} from "./messaging";
+import {UpcomingMovie} from "./upcomingMovie";
+import {StreamingExpired} from "./streamingExpired";
 
 function App() {
+
   return (
-    <div>
-      <h1>알람 허용하기</h1>
-      <AlarmPermission />
-      <h1>알람 삭제하기</h1>
-      <DismissingAlarms />
-      <p>클릭해서 구독하고 호러 영화 개봉 알람을 받아보세요</p>
-      <Subscribe />
-      <p>
-        호러 영화 개봉 알람을 받고 싶지 않다면 구독을 취소하세요.
-      </p>
-      <Unsubscribe />
-      <p>
-        호러 영화 개봉 알람을 테스트하려면 누르세요
-      </p>
-      <Send />
-      <UpcomingMovie />
-    </div>
+      <Router>
+        <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+          <Tabs>
+            <Tab label="개봉예정" component={Link} to="/upcoming"/>
+            <Tab label="알람 설정" component={Link} to="/alarm"/>
+            <Tab label="스트리밍 종료예정일" component={Link} to="/streamingExpired"/>
+          </Tabs>
+        </Box>
+        <Routes>
+          <Route path="/upcoming" element={<UpcomingMovie/>}/>
+          <Route path="/alarm" element={<AlarmPermissionSwitch/>}/>
+          <Route path="/streamingExpired" element={<StreamingExpired/>}/>
+        </Routes>
+      </Router>
   );
 }
 

@@ -1,13 +1,13 @@
 package org.alram.horroralarmbackend.messaging;
 
 import java.util.List;
-import org.alram.horroralarmbackend.upcoming.UpcomingMovieDTO;
+import org.alram.horroralarmbackend.upcoming.UpcomingMovieRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HorrorReleaseMessageBuilder {
 
-    public MessageDTO buildMessage(String topic, List<UpcomingMovieDTO> upcomingMovies) {
+    public MessageDTO buildMessage(String topic, List<UpcomingMovieRequest> upcomingMovies) {
         StringBuilder messageBuilder = new StringBuilder("개봉하는 공포영화 목록입니다.\n");
         upcomingMovies.forEach(upcomingMovie -> {
             messageBuilder.append(upcomingMovie.title())

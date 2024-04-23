@@ -3,22 +3,19 @@ package org.alram.horroralarmbackend.alarm;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
-
 @Data
-public class TokenDTO {
+public class TopicSubscribeRequest {
+
     @JsonDeserialize(using = TokenDeserializer.class)
     private String token;
 
     private String topic;
 
-    private String time;
-
-    public TokenDTO() {
+    public TopicSubscribeRequest() {
     }
 
-    public TokenDTO(String token, String topic, String time) {
+    public TopicSubscribeRequest(String token, String topic) {
         this.token = token;
         this.topic = topic;
-        this.time = time;
     }
 }
