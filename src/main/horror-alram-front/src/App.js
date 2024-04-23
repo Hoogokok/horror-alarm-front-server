@@ -3,9 +3,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import React from 'react';
-import {AlarmPermissionSwitch }from "./messaging";
+import {AlarmPermissionSwitch} from "./messaging";
 import {UpcomingMovie} from "./upcomingMovie";
 import {StreamingExpired} from "./streamingExpired";
+
 function App() {
 
   return (
@@ -18,9 +19,9 @@ function App() {
           </Tabs>
         </Box>
         <Routes>
-          <Route path="/upcoming" element={<UpcomingMovie />} />
-          <Route path="/alarm" element={<AlarmPermissionSwitch />} />
-          <Route path="/streamingExpired" element={<StreamingExpired />} />
+          <Route path="/upcoming" element={<UpcomingMovie/>}/>
+          <Route path="/alarm" element={<AlarmPermissionSwitch/>}/>
+          <Route path="/streamingExpired" element={<StreamingExpired/>}/>
         </Routes>
       </Router>
   );
