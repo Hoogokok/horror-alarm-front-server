@@ -2,6 +2,7 @@ package org.alram.horroralarmbackend.alarm;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alram.horroralarmbackend.messaging.FirebaseMessagingService;
+import org.alram.horroralarmbackend.messaging.TopicSubscribeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +16,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlarmPermissionController {
 
     private final TokenService tokenService;
+    private final TopicSubscribeService topicSubscribeService;
+    private final FirebaseMessagingService firebaseMessagingService;
 
-    public AlarmPermissionController(TokenService tokenService) {
+    public AlarmPermissionController(TokenService tokenService,
+        TopicSubscribeService topicSubscribeService,
+        FirebaseMessagingService firebaseMessagingService) {
         this.tokenService = tokenService;
+        this.topicSubscribeService = topicSubscribeService;
+        this.firebaseMessagingService = firebaseMessagingService;
     }
 
     @GetMapping("/alarm/checked/times")
-    public ResponseEntity<TokenTimeCheckedRequest> checkedTokenTimes(@RequestParam("token") String token) {
+    public ResponseEntity<TokenTimeCheckedRequest> checkedTokenTimes(
+        @RequestParam("token") String token) {
         return ResponseEntity.ok(tokenService.checkedTokenTimesPassedTheMonth(token));
     }
 
     @PostMapping("/alarm/update/token")
     public ResponseEntity<TokenUpdateResponse> updateToken(@RequestBody TokenUpdateRequest token) {
-        return ResponseEntity.ok(tokenService.updateToken(token));
+        return ResponseEntity.ok(
+            firebaseMessagingService.reSubscribeTopic(tokenService.updateToken(token)));
     }
 
     @PostMapping("/alarm/permission")
@@ -46,15 +55,25 @@ public class AlarmPermissionController {
     @PostMapping("/alarm/horror/subscribe")
     public ResponseEntity<TopicSubscribeResponse> subscribe(
         @RequestBody TopicSubscribeRequest token) {
-        TopicSubscribeResponse topicSubscribeResponse = FirebaseMessagingService.subscribeTopic(token);
+        topicSubscribeService.subscribe(tokenService.findToken(token.getToken()), token.getTopic());
+        TopicSubscribeResponse topicSubscribeResponse = firebaseMessagingService.subscribeTopic(
+            token);
         return ResponseEntity.ok(topicSubscribeResponse);
     }
 
     @DeleteMapping("/alarm/horror/unsubscribe")
     public ResponseEntity<TopicSubscribeResponse> unsubscribe(
         @RequestBody TopicSubscribeRequest token) {
-        TopicSubscribeResponse topicSubscribeResponse = FirebaseMessagingService.unsubscribeFromTopic(token);
+        topicSubscribeService.unsubscribe(tokenService.findToken(token.getToken()), token.getTopic());
+        TopicSubscribeResponse topicSubscribeResponse = firebaseMessagingService.unsubscribeFromTopic(
+            token);
         return ResponseEntity.ok(topicSubscribeResponse);
+    }
+
+    @GetMapping("/alarm/checked/subscribe")
+    public ResponseEntity<TopicCheckedResponse> checkedSubscribe(
+        @RequestParam("token") String token) {
+        return ResponseEntity.ok(tokenService.checkedTopicSubscribe(token));
     }
 
 }
