@@ -32,4 +32,8 @@ public class Topic {
     public void updateSubscriber(TopicToToken topicToToken) {
         topicToTokens.add(topicToToken);
     }
+
+    public void removeSubscriber(TopicToToken topicToToken) {
+        topicToTokens.remove(topicToToken);
+    }
 }
