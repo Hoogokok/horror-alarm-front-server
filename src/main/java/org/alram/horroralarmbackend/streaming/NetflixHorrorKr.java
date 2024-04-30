@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
-@Entity
+@Entity(name = "netflix_horror_kr")
 public class NetflixHorrorKr {
 
     @Id
