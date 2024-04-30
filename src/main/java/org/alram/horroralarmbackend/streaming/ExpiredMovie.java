@@ -1,19 +1,18 @@
 package org.alram.horroralarmbackend.streaming;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-public class NetflixExpiredResponse {
+@Data
+public class ExpiredMovie {
 
+    private final Long id;
     private final String title;
-    private final String overview;
     private final String posterPath;
     private final String expiredDate;
 
-    public NetflixExpiredResponse(String title, String overview, String posterPath,
-        String expiredDate) {
+    public ExpiredMovie(Long id, String title, String posterPath, String expiredDate) {
+        this.id = id;
         this.title = title;
-        this.overview = overview;
         this.posterPath = posterPath;
         this.expiredDate = expiredDate;
     }
