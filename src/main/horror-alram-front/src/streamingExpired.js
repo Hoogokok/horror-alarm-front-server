@@ -8,6 +8,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import Typography from '@mui/material/Typography';
+import {Link} from 'react-router-dom';
 
 function StreamingExpired() {
   const [movies, setMovies] = useState([]);
@@ -15,7 +16,6 @@ function StreamingExpired() {
   useEffect(() => {
     axios.get('/streaming/expired')
     .then((response) => {
-      console.log(response);
       setMovies(response.data.expiredMovies);
     });
   }, []);
@@ -29,7 +29,11 @@ function StreamingExpired() {
                 <TimelineConnector/>
               </TimelineSeparator>
               <TimelineContent>
-                <Typography>{movie.title}</Typography>
+                <Link to={`/movie/${movie.id}`}
+                      style={{textDecoration: 'none', color: 'black'}}
+                >
+                  <Typography>{movie.title}</Typography>
+                </Link>
                 <Typography>{movie.expiredDate}</Typography>
               </TimelineContent>
             </TimelineItem>
