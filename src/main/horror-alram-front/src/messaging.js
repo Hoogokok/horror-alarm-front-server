@@ -3,11 +3,9 @@ import {firebaseConfig} from "./config";
 import {useState, useEffect, useCallback} from 'react';
 import {initializeApp} from "firebase/app";
 import {
-  getMessaging,
-  getToken,
-  deleteToken,
-  onMessage
+  getMessaging, getToken, deleteToken, onMessage
 } from "firebase/messaging";
+import Container from '@mui/material/Container';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -157,19 +155,16 @@ function AlarmPermissionSwitch() {
   const fetchData = useCallback(async () => {
     try {
       await checkPermission().then(result => {
-            setCheckedPermission(result === 'granted');
-            if (result === 'granted') {
-              checkTokenTimeStamps();
-              getCheckedTopicsSubscribed().then(result => {
-                const topicContents = result.topicContents;
-                setCheckedSubscribe([
-                  topicContents.includes('upcoming_movie'),
-                  topicContents.includes('netflix_expired')
-                ]);
-              });
-            }
-          }
-      );
+        setCheckedPermission(result === 'granted');
+        if (result === 'granted') {
+          checkTokenTimeStamps();
+          getCheckedTopicsSubscribed().then(result => {
+            const topicContents = result.topicContents;
+            setCheckedSubscribe([topicContents.includes('upcoming_movie'),
+              topicContents.includes('netflix_expired')]);
+          });
+        }
+      });
     } catch (error) {
       console.error('An error occurred while checking token timestamps. ',
           error);
@@ -180,30 +175,26 @@ function AlarmPermissionSwitch() {
     fetchData();
   }, [fetchData]);
   return (
-      <FormGroup>
-        <FormControlLabel control={<Switch
-            checked={checkedPermission}
-            onChange={handleAlarmPermission}
-            inputProps={{'aria-label': 'controlled'}}
-        />} label={checkedPermission ? '알람 허용' : '알람 해제'}/>
-        <FormControlLabel control={<Switch
-            checked={checkedSubscribe[0]}
-            onChange={handleUpcomingMovieSubscribe}
-            inputProps={{'aria-label': 'controlled'}}
-        />} label={
-          checkedSubscribe[0] ? '개봉 알림 중' : '개봉 알림 켜기'
-        }/>
-        <FormControlLabel control={<Switch
-            checked={checkedSubscribe[1]}
-            onChange={handleNetflixSubscribe}
-            inputProps={{'aria-label': 'controlled'}}
-        />} label={
-          checkedSubscribe[1] ? '넷플릭스 스트리밍 종료 알림 중' : ' 넷플릭스 스트리밍 종료 알림 켜기'
-        }/>
-      </FormGroup>
-  );
+      <Container>
+        <FormGroup>
+          <FormControlLabel control={<Switch
+              checked={checkedPermission}
+              onChange={handleAlarmPermission}
+              inputProps={{'aria-label': 'controlled'}}
+          />} label={checkedPermission ? '알람 허용' : '알람 해제'}/>
+          <FormControlLabel control={<Switch
+              checked={checkedSubscribe[0]}
+              onChange={handleUpcomingMovieSubscribe}
+              inputProps={{'aria-label': 'controlled'}}
+          />} label={checkedSubscribe[0] ? '개봉 알림 중' : '개봉 알림 켜기'}/>
+          <FormControlLabel control={<Switch
+              checked={checkedSubscribe[1]}
+              onChange={handleNetflixSubscribe}
+              inputProps={{'aria-label': 'controlled'}}
+          />} label={checkedSubscribe[1] ? '넷플릭스 스트리밍 종료 알림 중'
+              : ' 넷플릭스 스트리밍 종료 알림 켜기'}/>
+        </FormGroup>
+      </Container>);
 }
 
-export {
-  AlarmPermissionSwitch
-};
+export {AlarmPermissionSwitch}
