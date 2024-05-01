@@ -9,7 +9,6 @@ import org.alram.horroralarmbackend.alarm.TopicContent;
 import org.alram.horroralarmbackend.streaming.NetflixExpiredService;
 import org.alram.horroralarmbackend.upcoming.MessageRequest;
 import org.alram.horroralarmbackend.upcoming.UpcomingMovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageScheduledTasks {
 
-    @Autowired
     private final MessageBuilder messageBuilder;
-    @Autowired
     private final UpcomingMovieService upcomingMovieService;
-
-    @Autowired
     private final NetflixExpiredService netflixExpiredService;
 
     public MessageScheduledTasks(MessageBuilder messageBuilder,
