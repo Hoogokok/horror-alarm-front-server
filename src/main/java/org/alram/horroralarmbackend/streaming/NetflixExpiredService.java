@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.alram.horroralarmbackend.upcoming.MessageRequest;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,7 +24,8 @@ public class NetflixExpiredService {
 
     public ExpiredResponse getNetflixExpiredResponse() {
         LocalDate today = LocalDate.now();
-        List<NetflixHorrorExpiredEn> expiredDateAsc = netflixHorrorExpiredEnRepository.findFromToday(today);
+        List<NetflixHorrorExpiredEn> expiredDateAsc = netflixHorrorExpiredEnRepository.findFromToday(
+            today);
         List<Long> expiredTheMovieIds = expiredDateAsc.stream()
             .map(NetflixHorrorExpiredEn::getTheMovieDbId)
             .toList();
@@ -62,5 +64,30 @@ public class NetflixExpiredService {
             netflixHorrorKr.getPosterPath(),
             netflixHorrorKr.getOverview()
         );
+    }
+
+    public List<MessageRequest> getNetflixExpiredMoviesForTheWeek() {
+        LocalDate today = LocalDate.now();
+        LocalDate nextWeek = today.plusDays(7);
+        List<NetflixHorrorExpiredEn> expiredDateAsc = netflixHorrorExpiredEnRepository
+            .findByExpiredDateBetween(today, nextWeek);
+        List<Long> expiredTheMovieIds = expiredDateAsc.stream()
+            .map(NetflixHorrorExpiredEn::getTheMovieDbId)
+            .toList();
+        List<NetflixHorrorKr> netflixHorrorKrs = netflixHorrorKrRepository.findAllByTheMovieDbIdIn(
+            expiredTheMovieIds);
+
+        return expiredDateAsc.stream()
+            .map(expired -> {
+                NetflixHorrorKr netflixHorrorKr = netflixHorrorKrs.stream()
+                    .filter(kr -> kr.getTheMovieDbId().equals(expired.getTheMovieDbId()))
+                    .findFirst()
+                    .orElseThrow();
+                return new MessageRequest(
+                    netflixHorrorKr.getTitle(),
+                    expired.getExpiredDate().toString()
+                );
+            })
+            .toList();
     }
 }
