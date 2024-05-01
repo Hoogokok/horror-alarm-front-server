@@ -1,5 +1,8 @@
 package org.alram.horroralarmbackend.alarm;
 
+import lombok.Getter;
+
+@Getter
 public enum TopicContent {
     UPCOMING_MOVIE("upcoming_movie"),
     NETFLIX_EXPIRED("netflix_expired");
