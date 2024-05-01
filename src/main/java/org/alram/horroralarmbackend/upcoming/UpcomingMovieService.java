@@ -31,14 +31,14 @@ public class UpcomingMovieService {
             .toList();
     }
 
-    public List<UpcomingMessageRequest> getUpcomingMoviesForTheWeek() {
+    public List<MessageRequest> getUpcomingMoviesForTheWeek() {
         LocalDate today = LocalDate.now();
         LocalDate nextWeek = today.plusWeeks(1);
         List<UpcomingMovie> upcomingMovies = upComingMovieRepository.findByReleaseDateBetween(
             today.toString(), nextWeek.toString());
         return upcomingMovies.stream()
             .map(upcomingMovie ->
-                new UpcomingMessageRequest(
+                new MessageRequest(
                     upcomingMovie.getTitle(),
                     upcomingMovie.getReleaseDate()))
             .toList();

@@ -46,7 +46,7 @@ class UpcomingMovieServiceTest {
           upComingMovieRepository.save(upcomingMovie2);
 
           // when
-          List<UpcomingMessageRequest> upcomingMoviesForTheWeek = upComingMovieService.getUpcomingMoviesForTheWeek();
+          List<MessageRequest> upcomingMoviesForTheWeek = upComingMovieService.getUpcomingMoviesForTheWeek();
 
           // then
           assertThat(upcomingMoviesForTheWeek).hasSize(2);
