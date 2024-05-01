@@ -1,6 +1,7 @@
 package org.alram.horroralarmbackend.streaming;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,8 @@ public class NetflixExpiredService {
     }
 
     public ExpiredResponse getNetflixExpiredResponse() {
-        List<NetflixHorrorExpiredEn> expiredDateAsc = netflixHorrorExpiredEnRepository.findAllByOrderByExpiredDateAsc();
+        LocalDate today = LocalDate.now();
+        List<NetflixHorrorExpiredEn> expiredDateAsc = netflixHorrorExpiredEnRepository.findFromToday(today);
         List<Long> expiredTheMovieIds = expiredDateAsc.stream()
             .map(NetflixHorrorExpiredEn::getTheMovieDbId)
             .toList();
