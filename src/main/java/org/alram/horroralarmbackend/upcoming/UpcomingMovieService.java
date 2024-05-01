@@ -2,6 +2,7 @@ package org.alram.horroralarmbackend.upcoming;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ public class UpcomingMovieService {
     public List<UpcomingMovieRequest> findUpcomingMovieByDate() {
         String today = LocalDate.now().toString();
         List<UpcomingMovie> upcomingMovies = upComingMovieRepository.findByReleaseDateAfter(today);
-        return upcomingMovies.stream().map(upcomingMovie ->
+        return upcomingMovies.stream()
+            .sorted(Comparator.comparing(UpcomingMovie::getReleaseDate))
+            .map(upcomingMovie ->
             new UpcomingMovieRequest(
                 upcomingMovie.getId(),
                 upcomingMovie.getTitle(),

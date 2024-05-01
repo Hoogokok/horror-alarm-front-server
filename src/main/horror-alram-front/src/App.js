@@ -1,24 +1,40 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link, Routes,NavLink} from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Routes,
+} from 'react-router-dom'
+import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import {AlarmPermissionSwitch} from "./messaging";
 import {UpcomingMovie} from "./upcomingMovie";
 import {StreamingExpired} from "./streamingExpired";
 import Detail from "./movieDetail";
 
 function App() {
+  const [value, setValue] = React.useState('one');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
       <Router>
-        <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-          <Tabs>
-            <Tab label="개봉예정" component={Link} to="/upcoming"/>
-            <Tab label="알람 설정" component={Link} to="/alarm"/>
-            <Tab label="스트리밍 종료예정일" component={Link} to="/streamingexpired"/>
+        <Container>
+          <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor="secondary"
+              indicatorColor="secondary"
+              centered
+          >
+            <Tab label="개봉 예정 영화" value="one" component={Link} to="/upcoming"/>
+            <Tab label="알람 설정" value="two" component={Link} to="/alarm"/>
+            <Tab label="스트리밍 종료 예정일" value="three" component={Link} to="/streamingexpired"/>
           </Tabs>
-        </Box>
+        </Container>
         <Routes>
           <Route path="/movie/:id" element={<Detail/>}/>
           <Route path="/upcoming" element={<UpcomingMovie/>}/>
