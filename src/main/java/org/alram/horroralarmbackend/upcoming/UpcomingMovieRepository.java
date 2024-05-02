@@ -11,4 +11,6 @@ public interface UpcomingMovieRepository extends JpaRepository<UpcomingMovie, Lo
 
     @Query("SELECT u FROM UpcomingMovie u WHERE u.releaseDate > :today")
     List<UpcomingMovie> findByReleaseDateAfter(@Param("today") String today);
+
+    List<UpcomingMovie> findByReleaseDateBetween(String today, String nextWeek);
 }

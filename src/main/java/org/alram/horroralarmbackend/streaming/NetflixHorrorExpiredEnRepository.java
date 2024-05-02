@@ -14,4 +14,6 @@ public interface NetflixHorrorExpiredEnRepository extends
 
     @Query("SELECT n FROM netflix_horror_expired n WHERE n.expiredDate >= :today ORDER BY n.expiredDate ASC")
     List<NetflixHorrorExpiredEn> findFromToday(@Param("today") LocalDate today);
+
+    List<NetflixHorrorExpiredEn> findByExpiredDateBetween(LocalDate today, LocalDate nextWeek);
 }

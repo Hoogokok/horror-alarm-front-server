@@ -10,4 +10,6 @@ public interface TopicToTokenRepository extends JpaRepository<TopicToToken, Long
    List<TopicToToken> findByToken(Token token);
 
     Optional<TopicToToken> findByTokenAndTopic(Token token, Topic topic);
+
+    List<TopicToToken> findByTopic(Topic topic);
 }

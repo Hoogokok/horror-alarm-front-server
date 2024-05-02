@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class UpcomingMovieService {
+
     private final UpcomingMovieRepository upComingMovieRepository;
 
     public UpcomingMovieService(UpcomingMovieRepository upComingMovieRepository) {
@@ -21,12 +22,25 @@ public class UpcomingMovieService {
         return upcomingMovies.stream()
             .sorted(Comparator.comparing(UpcomingMovie::getReleaseDate))
             .map(upcomingMovie ->
-            new UpcomingMovieRequest(
-                upcomingMovie.getId(),
-                upcomingMovie.getTitle(),
-                upcomingMovie.getReleaseDate(),
-                upcomingMovie.getPoster_path(),
-                upcomingMovie.getOverview()))
+                new UpcomingMovieRequest(
+                    upcomingMovie.getId(),
+                    upcomingMovie.getTitle(),
+                    upcomingMovie.getReleaseDate(),
+                    upcomingMovie.getPoster_path(),
+                    upcomingMovie.getOverview()))
+            .toList();
+    }
+
+    public List<MessageRequest> getUpcomingMoviesForTheWeek() {
+        LocalDate today = LocalDate.now();
+        LocalDate nextWeek = today.plusWeeks(1);
+        List<UpcomingMovie> upcomingMovies = upComingMovieRepository.findByReleaseDateBetween(
+            today.toString(), nextWeek.toString());
+        return upcomingMovies.stream()
+            .map(upcomingMovie ->
+                new MessageRequest(
+                    upcomingMovie.getTitle(),
+                    upcomingMovie.getReleaseDate()))
             .toList();
     }
 }

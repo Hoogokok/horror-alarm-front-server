@@ -1,6 +1,6 @@
 package org.alram.horroralarmbackend.streaming;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
@@ -37,14 +37,28 @@ class NetflixExpiredServiceTest {
         var netflixExpiredResponse = netflixExpiredService.getNetflixExpiredResponse();
 
         // then
-        assertEquals(2, netflixExpiredResponse.size());
-        assertEquals("title1", netflixExpiredResponse.get(0).getTitle());
-        assertEquals("overview1", netflixExpiredResponse.get(0).getOverview());
-        assertEquals("posterPath1", netflixExpiredResponse.get(0).getPosterPath());
-        assertEquals("2021-10-01", netflixExpiredResponse.get(0).getExpiredDate());
-        assertEquals("title2", netflixExpiredResponse.get(1).getTitle());
-        assertEquals("overview2", netflixExpiredResponse.get(1).getOverview());
-        assertEquals("posterPath2", netflixExpiredResponse.get(1).getPosterPath());
-        assertEquals("2021-10-02", netflixExpiredResponse.get(1).getExpiredDate());
+        assertThat(netflixExpiredResponse.expiredMovies()).hasSize(2);
+    }
+
+    @DisplayName("다음주 스트리밍 종료 예정인 영화를 가져온다.")
+    @Test
+    void getNetflixExpiredMoviesForTheWeek() {
+        // given
+        netflixHorrorExpiredEnRepository.save(
+            new NetflixHorrorExpiredEn(LocalDate.now().plusWeeks(1), 1L));
+        netflixHorrorExpiredEnRepository.save(
+            new NetflixHorrorExpiredEn(LocalDate.now().plusWeeks(1), 2L));
+        netflixHorrorKrRepository.save(
+            new NetflixHorrorKr("title1", 1L, "overview1", "posterPath1"));
+        netflixHorrorKrRepository.save(
+            new NetflixHorrorKr("title2", 2L, "overview2", "posterPath2"));
+
+        // when
+        var netflixExpiredMoviesForTheWeek = netflixExpiredService.getNetflixExpiredMoviesForTheWeek();
+
+        // then
+        assertThat(netflixExpiredMoviesForTheWeek).hasSize(2);
+        assertThat(netflixExpiredMoviesForTheWeek.get(0).title()).isEqualTo("title1");
+        assertThat(netflixExpiredMoviesForTheWeek.get(1).title()).isEqualTo("title2");
     }
 }
