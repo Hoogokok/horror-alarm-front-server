@@ -12,7 +12,13 @@ import {AlarmPermissionSwitch} from "./messaging";
 import {UpcomingMovie} from "./upcomingMovie";
 import {StreamingExpired} from "./streamingExpired";
 import Detail from "./movieDetail";
+import { createGlobalStyle } from 'styled-components';
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    background:#FFFFFF;
+  }
+`;
 function App() {
   const [value, setValue] = React.useState('one');
 
@@ -22,6 +28,7 @@ function App() {
 
   return (
       <Router>
+        <GlobalStyle/>
         <Container>
           <Tabs
               value={value}
@@ -36,6 +43,7 @@ function App() {
           </Tabs>
         </Container>
         <Routes>
+          <Route path="/" element={<UpcomingMovie/>}/>
           <Route path="/movie/:id" element={<Detail/>}/>
           <Route path="/upcoming" element={<UpcomingMovie/>}/>
           <Route path="/alarm" element={<AlarmPermissionSwitch/>}/>
