@@ -221,7 +221,9 @@ function PermissionSwitch() {
   }, []);
 
   useEffect(() => {
-    fetchData().then(r => console.log('Data fetched.'));
+    fetchData().then(() => {
+      console.log('Data fetched.');
+    });
   }, [fetchData]);
 
   return (
