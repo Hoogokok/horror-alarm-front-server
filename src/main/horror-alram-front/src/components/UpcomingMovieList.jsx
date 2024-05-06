@@ -5,7 +5,6 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
-import {styled} from "@mui/material/styles";
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -67,14 +66,4 @@ function UpcomingMovieList() {
   );
 }
 
-function UpcomingMovie() {
-  return (
-      <div>
-        <UpcomingMovieList/>
-      </div>
-  );
-}
-
-export {
-  UpcomingMovie
-}
+export {UpcomingMovieList}
