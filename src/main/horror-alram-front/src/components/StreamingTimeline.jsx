@@ -10,7 +10,7 @@ import {useState, useEffect} from 'react';
 import Typography from '@mui/material/Typography';
 import {Link} from 'react-router-dom';
 
-function StreamingExpired() {
+function StreamingTimeline() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -42,4 +42,4 @@ function StreamingExpired() {
   );
 }
 
-export {StreamingExpired}
+export {StreamingTimeline}
