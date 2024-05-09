@@ -16,12 +16,12 @@ public class StreamingExpiredController {
         this.netflixExpiredService = netflixExpiredService;
     }
 
-    @GetMapping("/streaming/expired")
+    @GetMapping("/api/streaming/expired")
     public ExpiredResponse getNetflixExpiredResponse() {
         return netflixExpiredService.getNetflixExpiredResponse();
     }
 
-    @GetMapping("/streaming/expired/detail/{id}")
+    @GetMapping("/api/streaming/expired/detail/{id}")
     public ExpiredDetailResponse getNetflixExpiredDetailResponse(@PathVariable("id") Long id) {
         return netflixExpiredService.getNetflixExpiredDetailResponse(id);
     }

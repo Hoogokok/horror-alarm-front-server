@@ -14,7 +14,7 @@ public class UpcomingMovieController {
         this.upComingMovieService = upComingMovieService;
     }
 
-    @GetMapping("/upcoming")
+    @GetMapping("/api/upcoming")
     public ResponseEntity<List<UpcomingMovieRequest>> upcoming() {
         return ResponseEntity.ok(upComingMovieService.findUpcomingMovieByDate());
     }
