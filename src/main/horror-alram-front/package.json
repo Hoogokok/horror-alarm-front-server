@@ -10,17 +10,26 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@radix-ui/react-slot": "^1.0.2",
+    "@supabase/supabase-js": "^2.43.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.0",
+    "express": "^4.19.2",
     "firebase": "^10.10.0",
+    "firebase-admin": "^12.1.0",
     "http-proxy-middleware": "^3.0.0",
+    "node": "^20.13.0",
+    "node-polyfill-webpack-plugin": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
+    "stream": "^0.0.2",
     "styled-components": "^6.1.9",
     "web-vitals": "^2.1.4"
   },
@@ -37,6 +46,7 @@
       "react-app/jest"
     ]
   },
+  "type": "module",
   "browserslist": {
     "production": [
       ">0.2%",
