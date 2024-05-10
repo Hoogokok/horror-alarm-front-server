@@ -42,9 +42,12 @@ async function subscribed(token, topic) {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(
-                  {token: tokenResponse.data[0].token, topic: topicResponse.data[0].name})
-            }).then(() => {
-          console.log("구독 완료");
+                  {
+                    token: tokenResponse.data[0].token,
+                    topic: topicResponse.data[0].name
+                  })
+            }).then(r => {
+          console.log(r);
         }).catch((error) => {
           console.error("구독 실패", error);
         });
@@ -69,9 +72,12 @@ async function unsubscribed(token, topic) {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(
-                  {token: tokenResponse.data[0].token, topic: topicResponse.data[0].name})
-            }).then(() => {
-          console.log("구독 해제 완료");
+                  {
+                    token: tokenResponse.data[0].token,
+                    topic: topicResponse.data[0].name
+                  })
+            }).then(r => {
+          console.log(r);
         }).catch((error) => {
           console.error("구독 해제 실패", error);
         });
@@ -182,7 +188,7 @@ async function handleUpcomingMovieSubscribe(checkedPermission,
     checkedSubscribe) {
   if (checkedPermission) {
     const token = await getToken(messaging);
-    if (!checkedSubscribe[0]) {
+    if (!checkedSubscribe) {
       await subscribed(token, 'upcoming_movie');
       return true;
     } else {
@@ -219,11 +225,11 @@ async function handleAlarmPermission() {
 async function handleNetflixSubscribe(checkedPermission, checkNetflix) {
   if (checkedPermission) {
     const token = await getToken(messaging);
-    if (checkNetflix) {
-      await subscribed(token, 'netflix_expired');
+    if (!checkNetflix) {
+      await subscribed(token, 'netflix_expiring');
       return true
     } else {
-      await unsubscribed(token, 'netflix_expired');
+      await unsubscribed(token, 'netflix_expiring');
       return false;
     }
   } else {
@@ -249,7 +255,7 @@ async function handleInitialSubscription() {
     const topics = await getCheckedTopicsSubscribed(result.newToken);
     const topicContents = topics.topicContents;
     return new AlarmStatus(true, [topicContents.includes('upcoming_movie'),
-      topicContents.includes('netflix_expired')]);
+      topicContents.includes('netflix_expiring')]);
   }
   return new AlarmStatus(false, [false, false]);
 }
