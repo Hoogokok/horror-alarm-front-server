@@ -37,4 +37,7 @@ out/
 .vscode/
 /src/main/horror-alram-front/.env
 /src/main/horror-alram-front/node_modules/*
-/src/main/horror-alram-front/src/horror-alarm-firebase-adminsdk.json
+/src/main/horror-alram-front/src/.env
+/src/main/horror-alram-front/server/horror-alarm-c169a-firebase-admin.json
+/src/main/horror-alram-front/server/.env
+/src/main/horror-alram-front/server/node_modules
