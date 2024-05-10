@@ -10,11 +10,11 @@ import {useState, useEffect} from 'react';
 import Typography from '@mui/material/Typography';
 import {Link} from 'react-router-dom';
 
-function StreamingTimeline() {
+export function StreamingTimeline() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios.get('/streaming/expired')
+    axios.get('/api/streaming/expired')
     .then((response) => {
       setMovies(response.data.expiredMovies);
     });
@@ -41,5 +41,3 @@ function StreamingTimeline() {
       </Timeline>
   );
 }
-
-export {StreamingTimeline}

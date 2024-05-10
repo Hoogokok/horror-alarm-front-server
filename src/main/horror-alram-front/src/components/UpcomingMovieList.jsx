@@ -10,12 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-async function getUpcomingMovies() {
-  const response = await axios.get('/upcoming');
-  return response.data;
-}
-
-function UpcomingMovieList() {
+export function UpcomingMovieList() {
   const matches = useMediaQuery('(min-width:600px)');
   const [movies, setMovies] = useState([]);
   const [open, setOpen] = useState(false);
@@ -66,4 +61,7 @@ function UpcomingMovieList() {
   );
 }
 
-export {UpcomingMovieList}
+async function getUpcomingMovies() {
+  const response = await axios.get('/api/upcoming');
+  return response.data;
+}
