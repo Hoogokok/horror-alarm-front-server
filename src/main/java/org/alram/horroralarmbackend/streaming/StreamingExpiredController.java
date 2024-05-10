@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StreamingExpiredController {
 
-    private static final Logger log = LoggerFactory.getLogger(StreamingExpiredController.class);
     private final NetflixExpiredService netflixExpiredService;
 
     public StreamingExpiredController(NetflixExpiredService netflixExpiredService) {
