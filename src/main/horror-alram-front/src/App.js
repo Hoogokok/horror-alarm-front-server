@@ -1,5 +1,5 @@
 import {BrowserRouter,} from 'react-router-dom'
-import MainTabs from "./components/MainTab";
+import MainTabs from "./components/MainTab.jsx";
 import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
