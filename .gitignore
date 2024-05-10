@@ -40,4 +40,16 @@ out/
 /src/main/horror-alram-front/src/.env
 /src/main/horror-alram-front/server/horror-alarm-c169a-firebase-admin.json
 /src/main/horror-alram-front/server/.env
-/src/main/horror-alram-front/server/node_modules
+/src/main/horror-alram-front/server/node_modules/*
+src/main/horror-alram-front/node_modules/.package-lock.json
+src/main/horror-alram-front/node_modules/.cache/.eslintcache
+src/main/horror-alram-front/node_modules/.cache/default-development/0.pack
+src/main/horror-alram-front/node_modules/.cache/default-development/index.pack
+src/main/horror-alram-front/node_modules/.cache/default-development/index.pack.old
+src/main/horror-alram-front/node_modules/ejs/ejs.js
+src/main/horror-alram-front/node_modules/ejs/ejs.min.js
+src/main/horror-alram-front/node_modules/ejs/jakefile.js
+src/main/horror-alram-front/node_modules/ejs/package.json
+src/main/horror-alram-front/node_modules/ejs/README.md
+src/main/horror-alram-front/node_modules/ejs/lib/ejs.js
+src/main/horror-alram-front/node_modules/ejs/lib/utils.js
