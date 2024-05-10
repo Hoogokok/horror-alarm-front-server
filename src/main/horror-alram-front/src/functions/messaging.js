@@ -2,7 +2,7 @@ import {FIREBASE_CONFIG, SUPABASE_CONFIG} from '../config.js';
 import {initializeApp as fcm} from "firebase/app";
 import {createClient} from '@supabase/supabase-js'
 import {
-  getMessaging, getToken, deleteToken, onMessage
+  getMessaging, getToken, deleteToken,
 } from "firebase/messaging";
 
 const supabaseClient = createClient(SUPABASE_CONFIG.url,
