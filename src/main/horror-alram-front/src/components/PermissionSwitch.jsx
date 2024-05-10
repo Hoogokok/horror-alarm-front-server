@@ -37,20 +37,18 @@ export function PermissionSwitch() {
 
   const fetchData = useCallback(async () => {
     try {
-      await handleInitialSubscription().then(result => {
-        setCheckedPermission(result.permission);
-        setCheckedUpcomingMovie(result.subscribe[0]);
-        setCheckedNetflix(result.subscribe[1]);
-      });
+     return  await handleInitialSubscription();
     } catch (error) {
       console.error('An error occurred while checking token timestamps. ',
           error);
     }
-  }, [checkedPermission, checkedUpcomingMovie, checkedNetflix]);
+  }, []);
 
   useEffect(() => {
-    fetchData().then(() => {
-      console.log('Initial subscription checked');
+    fetchData().then(result => {
+      setCheckedPermission(result.permission);
+      setCheckedUpcomingMovie(result.subscribe[0]);
+      setCheckedNetflix(result.subscribe[1]);
     });
   }, [checkedPermission, checkedUpcomingMovie, checkedNetflix, fetchData]);
 
@@ -77,13 +75,13 @@ const AlarmPermissionSwitch = memo(function AlarmPermissionSwitch({
 });
 
 const UpcomingSubscriptionSwitch = memo(function UpcomingSubscriptionSwitch({
-  checkedSubscribe, handleUpcomingMovieSubscribe
+  checkedUpcomingMovie, handleUpcomingMovieSubscribe
 }) {
   return (<FormControlLabel control={<Switch
-      checked={checkedSubscribe}
+      checked={checkedUpcomingMovie}
       onChange={handleUpcomingMovieSubscribe}
       inputProps={{'aria-label': 'controlled'}}
-  />} label={checkedSubscribe ? '개봉 예정 영화 알림 중' : '개봉 예정 영화 알림 켜기'}/>)
+  />} label={checkedUpcomingMovie ? '개봉 예정 영화 알림 중' : '개봉 예정 영화 알림 켜기'}/>)
 });
 
 const NetflixSubscriptionSwitch = memo(function NetflixSubscriptionSwitch({
