@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface NetflixHorrorExpiredEnRepository extends
     JpaRepository<NetflixHorrorExpiredEn, Long> {
 
-    @Query("SELECT n FROM netflix_horror_expired n WHERE n.expiredDate >= :today ORDER BY n.expiredDate ASC")
+    @Query("SELECT n FROM netflix_horror_expiring n WHERE n.expiredDate >= :today ORDER BY n.expiredDate ASC")
     List<NetflixHorrorExpiredEn> findFromToday(@Param("today") LocalDate today);
 
     List<NetflixHorrorExpiredEn> findByExpiredDateBetween(LocalDate today, LocalDate nextWeek);
