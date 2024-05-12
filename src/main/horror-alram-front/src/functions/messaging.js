@@ -134,7 +134,6 @@ async function unsubscribed(token, topic) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({token: token, topic: topic})
-  }).then(r => {
   }).catch((error) => {
     console.error("구독 해제 실패", error);
   });
