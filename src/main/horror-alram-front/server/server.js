@@ -6,6 +6,11 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import {upcomingMovieJob, netflixExpiringJob} from "./messagingScheduleTask.js";
 import schedule from "node-schedule";
+import {
+  subscribed,
+  unsubscribed,
+  checkTokenTimeStamps, updateTokenTime, getTopics, grantToken
+} from "./tokenservice.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -27,14 +32,40 @@ app.set('port', 3001);
 
 router.post("/firebase/subscribe", async (req, res) => {
   const {token, topic} = req.body;
+  await subscribed(token, topic);
   await messaging.subscribeToTopic(token, topic);
   res.status(200).send("구독 완료");
 });
 
 router.post("/firebase/unsubscribe", async (req, res) => {
   const {token, topic} = req.body;
+  await unsubscribed(token, topic);
   await messaging.unsubscribeFromTopic(token, topic);
   res.status(200).send("구독 해제 완료");
+});
+
+router.post("/firebase/permission", async (req, res) => {
+  const {token, time} = req.body;
+  const result = await grantToken(token, time);
+  res.status(200).send(result);
+});
+
+router.post("/firebase/timestamp", async (req, res) => {
+  const {oldToken, newToken, newTime} = req.body;
+  const result = await updateTokenTime(oldToken, newToken, newTime);
+  res.status(200).send(result);
+});
+
+router.get("/firebase/timestamp", async (req, res) => {
+  const { token } = req.query;
+  const result = await checkTokenTimeStamps(token);
+  res.status(200).send({result});
+});
+
+router.get("/firebase/subscriptions", async (req, res) => {
+  const { token } = req.query;
+  const result = await getTopics(token);
+  res.status(200).send({result});
 });
 
 await app.listen(3001, () => {
