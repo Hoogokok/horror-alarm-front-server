@@ -1,17 +1,18 @@
 import admin from "firebase-admin";
-import serviceAccount
-  from './horror-alarm-c169a-firebase-admin.json' assert {type: 'json'};
+import { config } from "dotenv";
 import express from "express";
 import cors from "cors";
 import bodyParser from 'body-parser';
-import {upcomingMovieJob, netflixExpiringJob} from "./messagingScheduleTask.js";
+import { upcomingMovieJob, netflixExpiringJob } from "./messagingScheduleTask.js";
 import schedule from "node-schedule";
 import {
   subscribed,
   unsubscribed,
   checkTokenTimeStamps, updateTokenTime, getTopics, grantToken
 } from "./tokenservice.js";
-
+import { serviceAccount } from "./config.js";
+config();
+console.log(serviceAccount);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
@@ -21,37 +22,37 @@ const messaging = admin.messaging();
 
 // CORS 설정
 app.use(cors(
-    {
-      origin: 'http://localhost:3000',
-      credentials: true
-    }
+  {
+    origin: 'http://localhost:3000',
+    credentials: true
+  }
 ));
 app.use(bodyParser.json());
 app.use(router);
 app.set('port', 3001);
 
 router.post("/firebase/subscribe", async (req, res) => {
-  const {token, topic} = req.body;
+  const { token, topic } = req.body;
   await subscribed(token, topic);
   await messaging.subscribeToTopic(token, topic);
   res.status(200).send("구독 완료");
 });
 
 router.post("/firebase/unsubscribe", async (req, res) => {
-  const {token, topic} = req.body;
+  const { token, topic } = req.body;
   await unsubscribed(token, topic);
   await messaging.unsubscribeFromTopic(token, topic);
   res.status(200).send("구독 해제 완료");
 });
 
 router.post("/firebase/permission", async (req, res) => {
-  const {token, time} = req.body;
+  const { token, time } = req.body;
   const result = await grantToken(token, time);
   res.status(200).send(result);
 });
 
 router.post("/firebase/timestamp", async (req, res) => {
-  const {oldToken, newToken, newTime} = req.body;
+  const { oldToken, newToken, newTime } = req.body;
   const result = await updateTokenTime(oldToken, newToken, newTime);
   res.status(200).send(result);
 });
@@ -59,13 +60,13 @@ router.post("/firebase/timestamp", async (req, res) => {
 router.get("/firebase/timestamp", async (req, res) => {
   const { token } = req.query;
   const result = await checkTokenTimeStamps(token);
-  res.status(200).send({result});
+  res.status(200).send({ result });
 });
 
 router.get("/firebase/subscriptions", async (req, res) => {
   const { token } = req.query;
   const result = await getTopics(token);
-  res.status(200).send({result});
+  res.status(200).send({ result });
 });
 
 await app.listen(3001, () => {
