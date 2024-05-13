@@ -32,3 +32,5 @@ out/
 .vscode/
 /.env
 node_modules/
+horror-alram-front/server/.env
+horror-alram-front/src/.env
