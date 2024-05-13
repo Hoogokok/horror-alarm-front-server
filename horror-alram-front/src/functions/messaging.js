@@ -1,5 +1,5 @@
-import {FIREBASE_CONFIG} from '../config.js';
-import {initializeApp as fcm} from "firebase/app";
+import {FIREBASE_CONFIG} from "../config.js";
+import { initializeApp as fcm } from "firebase/app";
 import {
   getMessaging, getToken, deleteToken,
 } from "firebase/messaging";
@@ -25,7 +25,7 @@ async function handleInitialSubscription() {
     const result = await checkTokenTimeStamps(token);
     const topicContents = await getCheckedTopicsSubscribed(result.newToken);
     return new AlarmStatus(true, [topicContents.includes('upcoming_movie'),
-      topicContents.includes('netflix_expiring')]);
+    topicContents.includes('netflix_expiring')]);
   }
   return new AlarmStatus(false, [false, false]);
 }
@@ -39,11 +39,11 @@ async function getCheckedTopicsSubscribed(token) {
       'Content-Type': 'application/json'
     },
   }).then(r => r.json())
-  .then((data) => {
-    const {result} = data;
-    const {topicContents} = result;
-    return topicContents;
-  });
+    .then((data) => {
+      const { result } = data;
+      const { topicContents } = result;
+      return topicContents;
+    });
 }
 
 async function handleAlarmPermission() {
@@ -80,7 +80,7 @@ async function checkPermission() {
 }
 
 async function handleUpcomingMovieSubscribe(checkedPermission,
-    checkedSubscribe) {
+  checkedSubscribe) {
   if (checkedPermission) {
     const token = await getToken(messaging);
     if (!checkedSubscribe) {
@@ -120,7 +120,7 @@ async function subscribed(token, topic) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({token: token, topic: topic})
+    body: JSON.stringify({ token: token, topic: topic })
   }).then(r => {
   }).catch((error) => {
     console.error("구독 실패", error);
@@ -133,7 +133,7 @@ async function unsubscribed(token, topic) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({token: token, topic: topic})
+    body: JSON.stringify({ token: token, topic: topic })
   }).catch((error) => {
     console.error("구독 해제 실패", error);
   });
@@ -146,18 +146,18 @@ async function checkTokenTimeStamps(token) {
   3. 한 달이 지나지 않았으면 토큰을 그대로 사용한다.
    */
   const url = `http://localhost:3001/firebase/timestamp?token=${token}`;
-  const {data, error} = fetch(url, {
+  const { data, error } = fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
   }).then(r => r.json())
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error("토큰 타임스탬프 확인 실패", error);
-  })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.error("토큰 타임스탬프 확인 실패", error);
+    })
   if (!error && data) {
     console.log('토큰이 만료됨');
     const date = new Date(); // 현재 날짜 및 시간
@@ -171,11 +171,11 @@ async function checkTokenTimeStamps(token) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({oldToken: token, newToken, newTime})
+      body: JSON.stringify({ oldToken: token, newToken, newTime })
     });
-    return {newToken, newTime};
+    return { newToken, newTime };
   }
-  return {newToken: token, newTime: ""};
+  return { newToken: token, newTime: "" };
 }
 
 async function createTokenAndTime() {
@@ -183,7 +183,7 @@ async function createTokenAndTime() {
     const newToken = await getToken(messaging);
     const date = new Date(); // 현재 날짜 및 시간
     const newTime = date.toISOString().split('T')[0]; // "2023-04-22"
-    return {newToken, newTime};
+    return { newToken, newTime };
   } catch (error) {
     console.error('An error occurred while retrieving token. ', error);
   }
@@ -193,14 +193,14 @@ async function requestPermission() {
   console.log('Requesting permission...');
   try {
     await Notification.requestPermission();
-    const {newToken, newTime} = await createTokenAndTime();
+    const { newToken, newTime } = await createTokenAndTime();
     console.log("Permission granted");
     await fetch("http://localhost:3001/firebase/permission", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({token: newToken, time: newTime})
+      body: JSON.stringify({ token: newToken, time: newTime })
     });
   } catch (error) {
     alert('알람 권한을 허용해주세요.');

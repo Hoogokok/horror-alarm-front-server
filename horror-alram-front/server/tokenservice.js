@@ -1,14 +1,14 @@
-import {createClient} from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
 const supabaseClient = createClient(process.env.REACT_APP_SUPABASE_URL,
-    process.env.REACT_APP_SUPABASE_ANON_KEY);
+  process.env.REACT_APP_SUPABASE_ANON_KEY);
 
 async function grantToken(token, time) {
-  const {error} = await supabaseClient.from('token').insert([{token}, {time}]);
+  const { error } = await supabaseClient.from('token').insert([{ token }, { time }]);
   if (!error) {
-    return {active: true, error: null};
+    return { active: true, error: null };
   }
-  return {active: false, error};
+  return { active: false, error };
 }
 
 async function subscribed(token, topic) {
@@ -20,7 +20,7 @@ async function subscribed(token, topic) {
   if (!tokenResponse.error) {
     const topicResponse = await getSupabaseTopic(topic);
     if (!topicResponse.error) {
-      const {error} = await supabaseClient.from('topic_to_token').insert([{
+      const { error } = await supabaseClient.from('topic_to_token').insert([{
         token_id: tokenResponse.data[0].id, topic_id: topicResponse.data[0].id
       }]);
     }
@@ -32,8 +32,8 @@ async function unsubscribed(token, topic) {
   if (!tokenResponse.error) {
     const topicResponse = await getSupabaseTopic(topic);
     if (!topicResponse.error) {
-      const {error} = await supabaseClient.from('topic_to_token').delete().eq(
-          'token_id', tokenResponse.data[0].id).eq('topic_id',
+      const { error } = await supabaseClient.from('topic_to_token').delete().eq(
+        'token_id', tokenResponse.data[0].id).eq('topic_id',
           tokenResponse.data[0].id);
     }
   }
@@ -45,7 +45,7 @@ async function checkTokenTimeStamps(token) {
   2. 한 달이 지났으면 새로운 토큰을 생성하고 시간을 업데이트한다.
   3. 한 달이 지나지 않았으면 토큰을 그대로 사용한다.
    */
-  const {data, error} = await getSupabaseToken(token);
+  const { data, error } = await getSupabaseToken(token);
   if (!error) {
     console.log("확인 작업 시작")
     const date = new Date(); // 현재 날짜 및 시간
@@ -54,12 +54,12 @@ async function checkTokenTimeStamps(token) {
     const tokenTime = data[0].time;
     // 한 달이 지났는지 확인
     if (isDifference30Days(tokenTime, newTime)) {
-      return {data: false, error: null};
+      return { data: false, error: null };
     }
-    return {data: true, error: null};
+    return { data: true, error: null };
   } else {
     console.error('An error occurred while checking token timestamps. ', error);
-    return {data: false, error};
+    return { data: false, error };
   }
 }
 
@@ -72,10 +72,10 @@ function isDifference30Days(tokenTime, newTime) {
 }
 
 async function updateTokenTime(oldToken, newToken, newTime) {
-  const {data, error} = await getSupabaseToken(oldToken);
+  const { data, error } = await getSupabaseToken(oldToken);
   if (!error) {
     await supabaseClient.from('token').update(
-        {token: newToken, time: newTime}).eq('token', data[0].id);
+      { token: newToken, time: newTime }).eq('token', data[0].id);
   }
 }
 
@@ -84,29 +84,29 @@ async function getTopics(token) {
   const result = await getSupabaseToken(token);
   const result2 = await getSubscriptions(result);
   const topicIds = result2.map(topic => topic.topic_id);
-  const {data, error} = await supabaseClient.from('topic').select().in('id',
-      topicIds);
+  const { data, error } = await supabaseClient.from('topic').select().in('id',
+    topicIds);
   const topicContents = data.map(topic => topic.name);
-  return {topicContents};
+  return { topicContents };
 }
 
 async function getSupabaseToken(token) {
-  const {data, error} = await supabaseClient.from('token').select().eq('token',
-      token);
-  return {data, error};
+  const { data, error } = await supabaseClient.from('token').select().eq('token',
+    token);
+  return { data, error };
 }
 
 async function getSupabaseTopic(topic) {
-  const {data, error} = await supabaseClient.from('topic').select().eq('name',
-      topic);
-  return {data, error};
+  const { data, error } = await supabaseClient.from('topic').select().eq('name',
+    topic);
+  return { data, error };
 }
 
 async function getSubscriptions(result) {
   const {
     data, error
   } = await supabaseClient.from('topic_to_token').select().eq('token_id',
-      result.data[0].id);
+    result.data[0].id);
   return data;
 }
 
