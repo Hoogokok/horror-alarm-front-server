@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-@Entity(name = "netflix_horror_expired")
+@Entity(name = "netflix_horror_expiring")
 public class NetflixHorrorExpiredEn {
 
     @Id
