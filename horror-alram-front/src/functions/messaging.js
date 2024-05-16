@@ -1,4 +1,4 @@
-import {FIREBASE_CONFIG} from "../config.js";
+import { FIREBASE_CONFIG, SUPABASE_CONFIG } from "../config.js";
 import { initializeApp as fcm } from "firebase/app";
 import {
   getMessaging, getToken, deleteToken,
@@ -31,17 +31,19 @@ async function handleInitialSubscription() {
 }
 
 async function getCheckedTopicsSubscribed(token) {
-  //http://localhost:3001/firebase/subscriptions
-  const url = `http://localhost:3001/firebase/subscriptions?token=${token}`;
+  //http://localhost:8000/api/firebase/subscriptions
+  const url = `https://server-91.deno.dev/api/subscriptions?token=${token}`;
   return await fetch(url, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
     },
+    mode: 'cors'
+    ,
   }).then(r => r.json())
     .then((data) => {
-      const { result } = data;
-      const { topicContents } = result;
+      const { topicContents } = data;
       return topicContents;
     });
 }
@@ -115,11 +117,13 @@ async function subscribed(token, topic) {
    1. 토큰이 존재하는 지 찾는다
    2. 토큰이 존재하면 해당 토큰을 사용하여 토픽을 구독한다
    */
-  await fetch("http://localhost:3001/firebase/subscribe", {
+  await fetch("https://server-91.deno.dev/api/subscribe", {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
     },
+    mode: 'cors',
     body: JSON.stringify({ token: token, topic: topic })
   }).then(r => {
   }).catch((error) => {
@@ -128,11 +132,13 @@ async function subscribed(token, topic) {
 }
 
 async function unsubscribed(token, topic) {
-  await fetch("http://localhost:3001/firebase/unsubscribe", {
+  await fetch("https://server-91.deno.dev/api/unsubscribe", {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
     },
+    mode: 'cors',
     body: JSON.stringify({ token: token, topic: topic })
   }).catch((error) => {
     console.error("구독 해제 실패", error);
@@ -145,12 +151,14 @@ async function checkTokenTimeStamps(token) {
   2. 한 달이 지났으면 새로운 토큰을 생성하고 시간을 업데이트한다.
   3. 한 달이 지나지 않았으면 토큰을 그대로 사용한다.
    */
-  const url = `http://localhost:3001/firebase/timestamp?token=${token}`;
+  const url = `https://server-91.deno.dev/api/timestamp?token=${token}`;
   const { data, error } = fetch(url, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
     },
+    mode: 'cors',
   }).then(r => r.json())
     .then((data) => {
       return data;
@@ -166,11 +174,13 @@ async function checkTokenTimeStamps(token) {
     await deleteToken(messaging);
     const newToken = await getToken(messaging);
     console.log('New token:', newToken);
-    await fetch("http://localhost:3001/firebase/timestamp", {
+    await fetch("https://server-91.deno.dev/api/timestamp", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
       },
+      mode: 'cors',
       body: JSON.stringify({ oldToken: token, newToken, newTime })
     });
     return { newToken, newTime };
@@ -195,10 +205,12 @@ async function requestPermission() {
     await Notification.requestPermission();
     const { newToken, newTime } = await createTokenAndTime();
     console.log("Permission granted");
-    await fetch("http://localhost:3001/firebase/permission", {
+    await fetch("https://server-91.deno.dev/api/permission", {
       method: 'POST',
+      mode: 'cors',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
       },
       body: JSON.stringify({ token: newToken, time: newTime })
     });
