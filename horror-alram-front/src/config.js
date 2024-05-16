@@ -9,6 +9,7 @@ export const FIREBASE_CONFIG = {
 };
 
 export const SUPABASE_CONFIG = {
-  anonKey: process.env.REACT_APP_SUPABASE_ANON_KEY,
+  anonKey: process.env.REACT_APP_SUPABASE_EDGE_ANON_KEY,
   url: process.env.REACT_APP_SUPABASE_URL
 };
+
