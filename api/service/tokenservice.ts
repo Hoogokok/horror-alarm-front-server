@@ -1,9 +1,7 @@
 import { createClient, PostgrestError } from "https://esm.sh/@supabase/supabase-js@2.43.2";
-import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
-const env =  await load();
-const supbaseAnonKey= env['REACT_APP_SUPABASE_ANON_KEY'];
-const supbaseUrl = env['REACT_APP_SUPABASE_URL'];
+const supbaseAnonKey= Deno.env.get('REACT_APP_SUPABASE_ANON_KEY');
+const supbaseUrl = Deno.env.get('REACT_APP_SUPABASE_URL');
 if(!supbaseAnonKey || !supbaseUrl) {
   throw new Error('supabase url 또는 supabase anon key가 존재하지 않습니다.');
 }
