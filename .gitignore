@@ -31,7 +31,4 @@ out/
 ### VS Code ###
 .vscode/
 node_modules/
-horror-alram-front/server/.env
-horror-alram-front/src/.env
-horror-alram-front/server/horror-alarm-c169a-firebase-admin.json
-horror-alram-front/.env
+.env
