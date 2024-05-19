@@ -12,6 +12,7 @@ async function grantToken(token: any, time: any) {
   if (!error) {
     return { active: true, error: null };
   }
+  console.error("An error occurred while granting token. ", error);
   return { active: false, error };
 }
 
