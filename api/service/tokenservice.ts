@@ -101,7 +101,7 @@ async function updateTokenTime(oldToken: any, newToken: any, newTime: any) {
 async function getTopics(token: any) {
   const result = await getSupabaseToken(token);
   const result2 = await getSubscriptions(result);
-  const topicIds = result2 ? result2.map((topic) => topic.topic_id) : [];
+  const topicIds = result2 ? result2.data.map((topic) => topic.topic_id) : [];
   const { data, error } = await supabaseClient.from("topic").select().in(
     "id",
     topicIds,
