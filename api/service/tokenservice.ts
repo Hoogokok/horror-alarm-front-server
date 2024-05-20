@@ -8,7 +8,7 @@ if(!supbaseAnonKey || !supbaseUrl) {
 const supabaseClient = createClient(supbaseUrl,supbaseAnonKey);
 
 async function grantToken(token: any, time: any) {
-  const { error } = await supabaseClient.from('token').insert([{ token }, { time }]);
+  const { error } = await supabaseClient.from('token').insert({token: token, time: time});
   if (!error) {
     return { active: true, error: null };
   }
