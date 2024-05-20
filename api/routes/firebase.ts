@@ -68,7 +68,6 @@ async function subscribe(c: Context) {
     try {
       const body = await c.req.json();
       const { token, time } = body;
-      console.log("permission", token, time);
       const result = await grantToken(token, time);
   
       return new Response(JSON.stringify(result), {
