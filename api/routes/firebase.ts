@@ -5,7 +5,7 @@ import {
   subscribed,
   unsubscribed,
   updateTokenTime,
-} from "../service/tokenService.ts";
+} from "../service/tokenservice.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { serviceAccount } from "../config.ts";
 import admin from "npm:firebase-admin";
