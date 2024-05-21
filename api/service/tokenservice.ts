@@ -112,7 +112,7 @@ async function updateTokenTime(oldToken: any, newToken: any, newTime: any): Prom
   return { updateResult: false, error: result.error }
 }
 // 토큰을 사용하여 구독한 토픽을 가져온다
-async function getTopics(token: any): Promise<Result<SupabaseResponse, Error>{
+async function getTopics(token: any): Promise<Result<SupabaseResponse, Error>> {
   const result = await getSupabaseToken(token);
   if (result.kind === 'err') {
     return result
