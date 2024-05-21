@@ -5,7 +5,7 @@ import {
   subscribed,
   unsubscribed,
   updateTokenTime,
-} from "../service/tokenservice.ts";
+} from "../service/tokenService.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { serviceAccount } from "../config.ts";
 import admin from "npm:firebase-admin";
@@ -69,8 +69,12 @@ async function subscribe(c: Context) {
       const body = await c.req.json();
       const { token, time } = body;
       const result = await grantToken(token, time);
-  
-      return new Response(JSON.stringify(result), {
+      if (!result.active) {
+        return new Response(result.error, {
+          status: 400,
+        });
+      }
+      return new Response(JSON.stringify(result.active), {
         headers: {
           ...corsHeaders,
           "content-type": "application/json",
