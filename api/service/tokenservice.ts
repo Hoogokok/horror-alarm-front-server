@@ -27,7 +27,7 @@ async function subscribed(token: any, topic: any): Promise<{ subscribe: boolean,
     if (topicResult.kind === 'ok') {
       const tokenData = tokenResult.value.data;
       const topicData = topicResult.value.data;
-      const { error } = await supabaseClient.from("topic_to_t외ken").insert([{
+      const { error } = await supabaseClient.from("topic_to_token").insert([{
         token_id: tokenData[0].id,
         topic_id: topicData[0].id,
       }]);
@@ -78,9 +78,9 @@ async function checkTokenTimeStamps(token: any): Promise<Result<SupabaseResponse
     const tokenTime = result.value.data[0].time;
     // 한 달이 지났는지 확인
     if (isDifference30Days(tokenTime, newTime)) {
-      return { kind: 'ok', value: { data: false } };
+      return { kind: 'ok', value: { data: token, active: false } };
     }
-    return { kind: 'ok', value: { data: true } };
+    return { kind: 'ok', value: { data: token, active: true } };
   } else {
     return { kind: 'err', error: result.error };
   }
@@ -152,6 +152,7 @@ function createResult(params: { data: any; error: any; }): Result<SupabaseRespon
 
 type SupabaseResponse = {
   data: any;
+  active?: boolean;
 }
 
 type Error = {
