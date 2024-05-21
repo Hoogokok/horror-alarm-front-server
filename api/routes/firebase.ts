@@ -44,6 +44,7 @@ async function subscribe(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
@@ -68,6 +69,7 @@ async function unsubscribe(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
@@ -91,6 +93,7 @@ async function permission(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
@@ -114,6 +117,7 @@ async function timestamp(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
@@ -136,6 +140,7 @@ async function getTimestamp(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
@@ -158,6 +163,7 @@ async function getSubscriptions(c: Context) {
       },
     });
   } catch (error) {
+    console.log(error);
     return new Response(error, {
       status: 500,
     });
