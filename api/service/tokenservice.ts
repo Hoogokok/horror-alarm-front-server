@@ -35,7 +35,7 @@ async function subscribed(token: any, topic: any): Promise<{ subscribe: boolean,
         console.error("주제 구독동안 예외가 발생했습니다.", error);
         return { subscribe: false, error };
       }
-
+      return { subscribe: true, error: null };
     }
     return { subscribe: false, error: topicResult.kind === 'err' ? topicResult.error : null };
   }
@@ -57,6 +57,7 @@ async function unsubscribed(token: any, topic: any): Promise<{ unsubscribe: bool
         console.error("주제 구독 취소 동안 예외가 발생했습니다.", error);
         return { unsubscribe: false, error };
       }
+      return { unsubscribe: true, error: null };
     }
     return { unsubscribe: false, error: topicResult.kind === 'err' ? topicResult.error : null };
   }
