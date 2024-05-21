@@ -124,6 +124,11 @@ async function getTimestamp(c: Context) {
   try {
     const token = c.req.query("token");
     const result = await checkTokenTimeStamps(token);
+    if(result.kind === 'err'){
+      return new Response(String(result.error), { // 문자열로 변환
+        status: 400,
+      });
+    }
     return new Response(JSON.stringify(result), {
       headers: {
         ...corsHeaders,
@@ -141,6 +146,11 @@ async function getSubscriptions(c: Context) {
   try {
     const token = c.req.query("token");
     const result = await getTopics(token);
+    if(result.kind === 'err'){
+      return new Response(String(result.error), { 
+        status: 400,
+      });
+    }
     return new Response(JSON.stringify(result), {
       headers: {
         ...corsHeaders,
