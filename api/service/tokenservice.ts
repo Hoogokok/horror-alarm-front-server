@@ -78,9 +78,9 @@ async function checkTokenTimeStamps(token: any): Promise<Result<SupabaseResponse
     const tokenTime = result.value.data[0].time;
     // 한 달이 지났는지 확인
     if (isDifference30Days(tokenTime, newTime)) {
-      return { kind: 'ok', value: { data: token, active: false } };
+      return { kind: 'ok', value: { data: false } };
     }
-    return { kind: 'ok', value: { data: token, active: true } };
+    return { kind: 'ok', value: { data: true } };
   } else {
     return { kind: 'err', error: result.error };
   }
@@ -152,7 +152,6 @@ function createResult(params: { data: any; error: any; }): Result<SupabaseRespon
 
 type SupabaseResponse = {
   data: any;
-  active?: boolean;
 }
 
 type Error = {
