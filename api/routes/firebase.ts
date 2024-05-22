@@ -11,20 +11,23 @@ import { serviceAccount } from "../config.ts";
 import admin from "npm:firebase-admin";
 import { Context, Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
 
-admin.credential.cert(
-  {
-    "type": serviceAccount.type,
-    "project_id": serviceAccount.projectId,
-    "private_key_id": serviceAccount.privateKeyId,
-    "private_key": serviceAccount.privateKey,
-    "client_email": serviceAccount.clientEmail,
-    "client_id": serviceAccount.clientId,
-    "auth_uri": serviceAccount.authUri,
-    "token_uri": serviceAccount.tokenUri,
-    "auth_provider_x509_cert_url": serviceAccount.authProviderX509CertUrl,
-    "client_x509_cert_url": serviceAccount.clientX509CertUrl
-  }
-);
+
+admin.initializeApp({
+  credential: admin.credential.cert(
+    {
+      "type": serviceAccount.type,
+      "project_id": serviceAccount.projectId,
+      "private_key_id": serviceAccount.privateKeyId,
+      "private_key": serviceAccount.privateKey,
+      "client_email": serviceAccount.clientEmail,
+      "client_id": serviceAccount.clientId,
+      "auth_uri": serviceAccount.authUri,
+      "token_uri": serviceAccount.tokenUri,
+      "auth_provider_x509_cert_url": serviceAccount.authProviderX509CertUrl,
+      "client_x509_cert_url": serviceAccount.clientX509CertUrl
+    }
+  ),
+});
 const messaging = admin.messaging();
 
 /*
