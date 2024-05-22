@@ -28,6 +28,8 @@ admin.initializeApp({
     }
   ),
 });
+console.log("firebase-admin initialized");
+console.log(admin.apps);
 const messaging = admin.messaging();
 
 /*
