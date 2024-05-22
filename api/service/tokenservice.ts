@@ -48,15 +48,17 @@ async function unsubscribed(token: any, topic: any): Promise<{ unsubscribe: bool
     const topicResult = await getSupabaseTopic(topic);
     if (topicResult.kind === 'ok') {
       const tokenData = tokenResult.value.data
+
       const { error } = await supabaseClient.from("topic_to_token").delete()
         .eq(
           "token_id",
           tokenData[0].id,
-        ).eq("topic_id", tokenData[0].id);
+        ).eq("topic_id", topicResult.value.data[0].id);
       if (error) {
         console.error("주제 구독 취소 동안 예외가 발생했습니다.", error);
         return { unsubscribe: false, error };
       }
+      console.log("주제 구독 취소 성공");
       return { unsubscribe: true, error: null };
     }
     return { unsubscribe: false, error: topicResult.kind === 'err' ? topicResult.error : null };
