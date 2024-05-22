@@ -18,7 +18,7 @@ admin.initializeApp({
       "type": serviceAccount.type,
       "project_id": serviceAccount.projectId,
       "private_key_id": serviceAccount.privateKeyId,
-      "private_key": serviceAccount.privateKey,
+      "private_key": JSON.parse(serviceAccount.privateKey),
       "client_email": serviceAccount.clientEmail,
       "client_id": serviceAccount.clientId,
       "auth_uri": serviceAccount.authUri,
