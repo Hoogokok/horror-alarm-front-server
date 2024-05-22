@@ -11,7 +11,7 @@ import { serviceAccount } from "../config.ts";
 import admin from "npm:firebase-admin";
 import { Context, Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
 
-credential: admin.credential.cert(
+admin.credential.cert(
   {
     "type": serviceAccount.type,
     "project_id": serviceAccount.projectId,
@@ -24,7 +24,8 @@ credential: admin.credential.cert(
     "auth_provider_x509_cert_url": serviceAccount.authProviderX509CertUrl,
     "client_x509_cert_url": serviceAccount.clientX509CertUrl
   }
-),
+);
+const messaging = admin.messaging();
 
 /*
 app.use("/api/subscribe", subscribe);
@@ -137,7 +138,7 @@ async function getTimestamp(c: Context) {
   try {
     const token = c.req.query("token");
     const result = await checkTokenTimeStamps(token);
-    if(result.kind === 'err'){
+    if (result.kind === 'err') {
       return new Response(String(result.error), { // 문자열로 변환
         status: 400,
       });
@@ -160,8 +161,8 @@ async function getSubscriptions(c: Context) {
   try {
     const token = c.req.query("token");
     const result = await getTopics(token);
-    if(result.kind === 'err'){
-      return new Response(String(result.error), { 
+    if (result.kind === 'err') {
+      return new Response(String(result.error), {
         status: 400,
       });
     }
