@@ -2,7 +2,7 @@ export const serviceAccount = {
     "type": Deno.env.get("REACT_APP_FIRE_BASE_TYPE") as string,
     "projectId": Deno.env.get("REACT_APP_FIRE_BASE_PROJECT_ID") as string,
     "privateKeyId": Deno.env.get("REACT_APP_FIRE_BASE_PRIVATE_KEY_ID") as string,
-    "privateKey": Deno.env.get("REACT_APP_FIRE_BASE_PRIVATE_KEY")?.replace(/\\n/g, "\n") as string,
+    "privateKey": Deno.env.get("REACT_APP_FIRE_BASE_PRIVATE_KEY")?.replace(/\\n/g, '\n') as string,
     "clientEmail": Deno.env.get("REACT_APP_FIRE_BASE_CLIENT_EMAIL") as string,
     "clientId": Deno.env.get("REACT_APP_FIRE_BASE_CLIENT_ID") as string,
     "authUri": Deno.env.get("REACT_APP_FIRE_BASE_AUTH_URI") as string,
