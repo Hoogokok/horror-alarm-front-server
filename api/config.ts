@@ -1,3 +1,7 @@
+// import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+// const env = await load();
+
+
 export const serviceAccount = {
     "type": Deno.env.get("REACT_APP_FIRE_BASE_TYPE") as string,
     "projectId": Deno.env.get("REACT_APP_FIRE_BASE_PROJECT_ID") as string,
@@ -10,3 +14,4 @@ export const serviceAccount = {
     "authProviderX509CertUrl": Deno.env.get("REACT_APP_FIRE_BASE_AUTH_PROVIDER_X509_CERT_URL") as string,
     "clientX509CertUrl": Deno.env.get("REACT_APP_FIRE_BASE_CLIENT_X509_CERT_URL") as string 
 };
+
