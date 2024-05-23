@@ -6,31 +6,11 @@ import {
   unsubscribed,
   updateTokenTime,
 } from "../service/tokenservice.ts";
-import { corsHeaders } from "../_shared/cors.ts";
-import { serviceAccount } from "../config.ts";
-import admin from "npm:firebase-admin";
+
 import { Context, Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(
-    {
-      "type": serviceAccount.type,
-      "project_id": serviceAccount.projectId,
-      "private_key_id": serviceAccount.privateKeyId,
-      "private_key": serviceAccount.privateKey,
-      "client_email": serviceAccount.clientEmail,
-      "client_id": serviceAccount.clientId,
-      "auth_uri": serviceAccount.authUri,
-      "token_uri": serviceAccount.tokenUri,
-      "auth_provider_x509_cert_url": serviceAccount.authProviderX509CertUrl,
-      "client_x509_cert_url": serviceAccount.clientX509CertUrl
-    }
-  ),
-});
-console.log("firebase-admin initialized");
-console.log(admin.apps);
-const messaging = admin.messaging();
 
 /*
 app.use("/api/subscribe", subscribe);
@@ -41,6 +21,8 @@ app.use("/api/subscriptions", getSubscriptions);
 app.use("/api/grantToken", grantToken);
 
 */
+
+
 async function subscribe(c: Context) {
   const body = await c.req.json();
   const { token, topic } = body;
@@ -51,10 +33,8 @@ async function subscribe(c: Context) {
         status: 400,
       });
     }
-    await messaging.subscribeToTopic(token, topic);
     return new Response("구독 완료", {
       headers: {
-        ...corsHeaders,
         "content-type": "application/json",
       },
     });
@@ -72,11 +52,10 @@ async function unsubscribe(c: Context) {
     const { token, topic } = body;
     const result = await unsubscribed(token, topic);
     if (!result.unsubscribe) {
-      return new Response(result.error, {
+      return new Response(String(result.error), {
         status: 400,
       });
     }
-    await messaging.unsubscribeFromTopic(token, topic);
     return new Response("구독 취소", {
       headers: {
         ...corsHeaders,
@@ -97,7 +76,7 @@ async function permission(c: Context) {
     const { token, time } = body;
     const result = await grantToken(token, time);
     if (!result.active) {
-      return new Response(result.error, {
+      return new Response(String(result.error), {
         status: 400,
       });
     }
@@ -121,7 +100,7 @@ async function timestamp(c: Context) {
     const { oldToken, newToken, newTime } = body;
     const result = await updateTokenTime(oldToken, newToken, newTime);
     if (!result.updateResult) {
-      return new Response(result.error, {
+      return new Response(String(result.error), {
         status: 400,
       });
     }
