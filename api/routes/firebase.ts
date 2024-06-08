@@ -33,6 +33,7 @@ async function subscribe(c: Context) {
         status: 400,
       });
     }
+    console.log("구독 완료");
     return new Response("구독 완료", {
       headers: {
         "content-type": "application/json",
@@ -56,6 +57,7 @@ async function unsubscribe(c: Context) {
         status: 400,
       });
     }
+    console.log("구독 취소");
     return new Response("구독 취소", {
       headers: {
         ...corsHeaders,
