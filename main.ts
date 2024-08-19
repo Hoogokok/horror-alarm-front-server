@@ -1,9 +1,7 @@
-import { cors } from "https://deno.land/x/hono/middleware.ts";
+import { cors } from "https://deno.land/x/hono@v4.3.7/middleware.ts";
 import { router } from "./api/routes/firebase.ts";
 import { Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
-// import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
-// const env = await load();
-
+import "jsr:@std/dotenv/load";
 const app = new Hono();
 
 app.use("/api/*",
@@ -15,5 +13,4 @@ app.use("/api/*",
     })
 );
 router(app);
-
 Deno.serve(app.fetch);
