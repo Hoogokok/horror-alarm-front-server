@@ -1,6 +1,4 @@
-// import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
-// const env = await load();
-
+import "jsr:@std/dotenv/load";
 
 export const serviceAccount = {
     "type": Deno.env.get("REACT_APP_FIRE_BASE_TYPE") as string,
