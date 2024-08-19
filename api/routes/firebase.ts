@@ -9,6 +9,7 @@ import {
 
 import { Context, Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import "jsr:@std/dotenv/load";
 
 
 
@@ -29,7 +30,7 @@ async function subscribe(c: Context) {
   try {
     const result = await subscribed(token, topic);
     if (!result.subscribe) {
-      return new Response(result.error, {
+      return new Response(result.error.toString(), {
         status: 400,
       });
     }
@@ -122,7 +123,7 @@ async function timestamp(c: Context) {
 
 async function getTimestamp(c: Context) {
   try {
-    const token = c.req.query("token");
+    const token = c.req.query("token") || ""; // 토큰 값이 없을 경우 빈 문자열로 초기화
     const result = await checkTokenTimeStamps(token);
     if (result.kind === 'err') {
       return new Response(String(result.error), { // 문자열로 변환
@@ -145,8 +146,8 @@ async function getTimestamp(c: Context) {
 
 async function getSubscriptions(c: Context) {
   try {
-    const token = c.req.query("token");
-    const result = await getTopics(token);
+    const token = c.req.query("token") || ""; // 토큰 값이 없을 경우 빈 문자열로 초기화
+    const result = await getTopics(token)
     if (result.kind === 'err') {
       return new Response(String(result.error), {
         status: 400,
